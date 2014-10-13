@@ -186,26 +186,30 @@ static NSString *const PreferencesKeyForViewBounds (NSString *identifier)
 
 - (void)clearResponderChain
 {
-    // Remove view controller from the responder chain
-    NSResponder *chainedController = self.window.nextResponder;
-    if ([self.viewControllers indexOfObject:chainedController] == NSNotFound)
-        return;
-    self.window.nextResponder = chainedController.nextResponder;
-    chainedController.nextResponder = nil;
+	if (rint(NSAppKitVersionNumber) < NSAppKitVersionNumber10_9) {
+		// Remove view controller from the responder chain
+		NSResponder *chainedController = self.window.nextResponder;
+		if ([self.viewControllers indexOfObject:chainedController] == NSNotFound)
+			return;
+		self.window.nextResponder = chainedController.nextResponder;
+		chainedController.nextResponder = nil;
+	}
 }
 
 - (void)patchResponderChain
 {
-    [self clearResponderChain];
-    
-    NSViewController *selectedController = self.selectedViewController;
-    if (!selectedController)
-        return;
-    
-    // Add current controller to the responder chain
-    NSResponder *nextResponder = self.window.nextResponder;
-    self.window.nextResponder = selectedController;
-    selectedController.nextResponder = nextResponder;
+	if (rint(NSAppKitVersionNumber) < NSAppKitVersionNumber10_9) {
+		[self clearResponderChain];
+		
+		NSViewController *selectedController = self.selectedViewController;
+		if (!selectedController)
+			return;
+		
+		// Add current controller to the responder chain
+		NSResponder *nextResponder = self.window.nextResponder;
+		self.window.nextResponder = selectedController;
+		selectedController.nextResponder = nextResponder;
+	}
 }
 
 - (NSViewController <MASPreferencesViewController> *)viewControllerForIdentifier:(NSString *)identifier
