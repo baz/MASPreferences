@@ -39,8 +39,7 @@ static NSString * PreferencesKeyForViewBounds (NSString *identifier)
 - (instancetype)initWithViewControllers:(NSArray *)viewControllers title:(NSString *)title
 {
 	NSParameterAssert(viewControllers.count > 0);
-    NSString *nibPath = [[NSBundle bundleForClass:MASPreferencesWindowController.class] pathForResource:@"MASPreferencesWindow" ofType:@"nib"];
-    if ((self = [super initWithWindowNibPath:nibPath owner:self]))
+    if ((self = [super initWithWindowNibName:@"MASPreferencesWindow" owner:self]))
     {
 		_viewControllers = [viewControllers mutableCopy];
         _minimumViewRects = [[NSMutableDictionary alloc] init];
